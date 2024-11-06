@@ -16,6 +16,11 @@ DROP TABLE writer             		CASCADE CONSTRAINTS;
 DROP TABLE writer_writes_mov     	CASCADE CONSTRAINTS;
 DROP TABLE writer_writes_tv     	CASCADE CONSTRAINTS;
 
+DROP TABLE awards                   CASCADE CONSTRAINTS;
+
+DROP TABLE movie_review             CASCADE CONSTRAINTS;
+DROP TABLE show_review              CASCADE CONSTRAINTS;
+DROP TABLE tvep_review              CASCADE CONSTRAINTS;
 
 
 CREATE TABLE movie
@@ -123,8 +128,7 @@ CREATE TABLE writer_writes_tv
 
 
 
-
-CREATE TABLE Awards
+CREATE TABLE awards
 (
 	AwrName			VARCHAR2 	(16) 	CONSTRAINT AwrName    NOT NULL,
     AwrYear         DATE    			CONSTRAINT AwrYear    NOT NULL,
@@ -134,16 +138,47 @@ CREATE TABLE Awards
 	Awr_Mov_Award	VARCHAR2    (32),
 
     
-    CONSTRAINT award_name PRIMARY KEY (AwrName)
+    CONSTRAINT award_name_year PRIMARY KEY (AwrName,AwrYear)
     -- CONSTRAINT award_year PRIMARY KEY (AwrYear)
 );
 
-CREATE TABLE writer_writes_mov
+CREATE TABLE award_giver
 (
     AwrName      VARCHAR2    (16)
     AwrGiver     VARCHAR2    (32)
 );
 
+CREATE TABLE movie_review
+(
+    MR_User         VARCHAR2    (32)    CONSTRAINT MR_User  NOT NULL,
+    MR_Rating       NUMBER,
+    MR_Title        VARCHAR2    (32),
+    MR_Body         VARCHAR2    (250),
+    MR_Date         DATE
+    CONSTRAINT movie_review_mr_user PRIMARY KEY (MR_User)
+);
+
+CREATE TABLE show_review
+(
+    S_User         VARCHAR2    (32)    CONSTRAINT S_User  NOT NULL,
+    S_Rating       NUMBER,
+    S_Title        VARCHAR2    (32),
+    S_Body         VARCHAR2    (250),
+    S_Date         DATE
+    CONSTRAINT show_review_s_user PRIMARY KEY (S_User)
+);
+
+CREATE TABLE tvep_review
+(
+    TVep_User         VARCHAR2    (32)    CONSTRAINT S_User  NOT NULL,
+    TVep_Rating       NUMBER,
+    TVep_Title        VARCHAR2    (32),
+    TVep_Body         VARCHAR2    (250),
+    TVep_Date         DATE
+    TVep_Season       NUMBER,
+    TVep_Episode      VARCHAR2    (32),
+    CONSTRAINT tvep_review_s_user PRIMARY KEY (TVep_User)
+);
 
 
 ALTER TABLE director_directs
