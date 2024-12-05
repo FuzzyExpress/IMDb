@@ -1,4 +1,4 @@
-import json, os, tabulate, threading, time, datetime
+import json, os, threading, time, datetime
 
 
 global counter, timer, finished
