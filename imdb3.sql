@@ -40,37 +40,37 @@ CLEAR SCR
 
 CREATE TABLE movie
 (
-   MTitle          VARCHAR2    (32)    CONSTRAINT MTitle    NOT NULL,
-   MDescription    VARCHAR2    (1024),
+   MTitle          VARCHAR2    (265)    CONSTRAINT MTitle    NOT NULL,
+   MDescription    VARCHAR2    (2048),
    MStudio         VARCHAR2    (32),
    MState          VARCHAR2    (16),
-   MDetails        VARCHAR2    (64),
+   MDetails        VARCHAR2    (2048),
    MRating         NUMBER, --     (2, 2),
-   MTagline        VARCHAR2    (32),
+   MTagline        VARCHAR2    (64),
    CONSTRAINT movie_pkey PRIMARY KEY (MTitle)
 );
 
 
 CREATE TABLE tv_show
 (
-   TVTitle         VARCHAR2    (32)    CONSTRAINT TVTitle    NOT NULL,
-   TVDescription   VARCHAR2    (1024),
+   TVTitle         VARCHAR2    (265)    CONSTRAINT TVTitle    NOT NULL,
+   TVDescription   VARCHAR2    (2048),
    TVStudio        VARCHAR2    (32),
    TVState         VARCHAR2    (16),
-   TVDetails       VARCHAR2    (64),
+   TVDetails       VARCHAR2    (2048),
    TVRating        NUMBER, --      (2, 2),
-   TVTagline       VARCHAR2    (32),
+   TVTagline       VARCHAR2    (64),
    CONSTRAINT show_pkey PRIMARY KEY (TVTitle)
 );
 
 
 CREATE TABLE tv_episode
 (
-   EP_Title        VARCHAR2    (32)    CONSTRAINT EP_Title    NOT NULL,
+   EP_Title        VARCHAR2    (265)    CONSTRAINT EP_Title    NOT NULL,
    EP_Season       VARCHAR2    (1024),
    EP_Duration     VARCHAR2    (32),
    EP_Rating       NUMBER, --      (2, 2),
-   ShowTitle       VARCHAR2    (32),
+   ShowTitle       VARCHAR2    (265),
    CONSTRAINT tv_episode_pkey PRIMARY KEY (EP_Title)
 );
 
@@ -91,15 +91,17 @@ CREATE TABLE director
 
 CREATE TABLE director_directs_mov
 (
-   MovieTitle      VARCHAR2    (32),
-   MovieDirName    VARCHAR2    (32)
+   MovieTitle      VARCHAR2    (265),
+   MovieDirName    VARCHAR2    (32),
+   CONSTRAINT director_directs_mov_pkey PRIMARY KEY (MovieTitle, MovieDirName)
 );
 
 
 CREATE TABLE director_directs_tv
 (
-   ShowTitle       VARCHAR2    (32),
-   ShowDirName     VARCHAR2    (32)
+   ShowTitle       VARCHAR2    (265),
+   ShowDirName     VARCHAR2    (32),
+   CONSTRAINT director_directs_tv_pkey PRIMARY KEY (ShowTitle, ShowDirName)
 );
 
 
@@ -119,15 +121,17 @@ CREATE TABLE actor
 
 CREATE TABLE actor_acts_for_mov
 (
-   MovieTitle      VARCHAR2    (32),
-   MovieActName    VARCHAR2    (32)
+   MovieTitle      VARCHAR2    (265),
+   MovieActName    VARCHAR2    (32),
+   CONSTRAINT actor_acts_for_mov_pkey PRIMARY KEY (MovieTitle, MovieActName)
 );
 
 
 CREATE TABLE actor_acts_for_tv
 (
-   ShowTitle       VARCHAR2    (32),
-   ShowActName     VARCHAR2    (32)
+   ShowTitle       VARCHAR2    (265),
+   ShowActName     VARCHAR2    (32),
+   CONSTRAINT actor_acts_for_tv_pkey PRIMARY KEY (ShowTitle, ShowActName)
 );
 
 
@@ -147,15 +151,17 @@ CREATE TABLE writer
 
 CREATE TABLE writer_writes_mov
 (
-   MovieTitle      VARCHAR2    (32),
-   MovieWrtName    VARCHAR2    (32)
+   MovieTitle      VARCHAR2    (265),
+   MovieWrtName    VARCHAR2    (32),
+   CONSTRAINT writer_writes_mov_pkey PRIMARY KEY (MovieTitle, MovieWrtName)
 );
 
 
 CREATE TABLE writer_writes_tv
 (
-   ShowTitle       VARCHAR2    (32),
-   ShowWrtName     VARCHAR2    (32)
+   ShowTitle       VARCHAR2    (265),
+   ShowWrtName     VARCHAR2    (32),
+   CONSTRAINT writer_writes_tv_pkey PRIMARY KEY (ShowTitle, ShowWrtName)
 );
 
 
@@ -171,7 +177,7 @@ CREATE TABLE awards
    AwrGenre        VARCHAR2    (16),
    Awr_TV_Award    VARCHAR2    (32),
    Awr_Mov_Award   VARCHAR2    (32),
-   CONSTRAINT award_name_year PRIMARY KEY (AwrName,AwrYear)
+   CONSTRAINT award_name_year PRIMARY KEY (AwrName, AwrYear)
 );
 
 
@@ -179,7 +185,8 @@ CREATE TABLE award_giver
 (
   AwrYear      DATE,
   AwrName      VARCHAR2    (16),
-  AwrGiver     VARCHAR2    (32)
+  AwrGiver     VARCHAR2    (32),
+   CONSTRAINT award_giver_pkey PRIMARY KEY (AwrName, AwrYear)
 );
 
 
@@ -187,8 +194,8 @@ CREATE TABLE movie_review
 (
    MR_User         VARCHAR2    (32)    CONSTRAINT MR_User  NOT NULL,
    MR_Rating       NUMBER,
-   MR_Title        VARCHAR2    (32),
-   MR_Body         VARCHAR2    (250),
+   MR_Title        VARCHAR2    (265),
+   MR_Body         VARCHAR2    (2048),
    MR_Date         DATE,
    CONSTRAINT movie_review_mr_user PRIMARY KEY (MR_User)
 );
@@ -198,8 +205,8 @@ CREATE TABLE show_review
 (
    S_User         VARCHAR2    (32)    CONSTRAINT S_User  NOT NULL,
    S_Rating       NUMBER,
-   S_Title        VARCHAR2    (32),
-   S_Body         VARCHAR2    (250),
+   S_Title        VARCHAR2    (265),
+   S_Body         VARCHAR2    (2048),
    S_Date         DATE,
    CONSTRAINT show_review_s_user PRIMARY KEY (S_User)
 );
@@ -209,8 +216,8 @@ CREATE TABLE tvep_review
 (
    TVep_User         VARCHAR2    (32)    CONSTRAINT TVep_User  NOT NULL,
    TVep_Rating       NUMBER,
-   TVep_Title        VARCHAR2    (32),
-   TVep_Body         VARCHAR2    (250),
+   TVep_Title        VARCHAR2    (265),
+   TVep_Body         VARCHAR2    (2048),
    TVep_Date         DATE,
    TVep_Season       NUMBER,
    TVep_Episode      VARCHAR2    (32),
@@ -220,19 +227,26 @@ CREATE TABLE tvep_review
 
 CREATE TABLE movie_genre
 (
+   MovieTitle           VARCHAR2    (265),
    MovieGenre           VARCHAR2    (16),
-   MovieTitle           VARCHAR2    (32)
+   CONSTRAINT movie_genre_pkey PRIMARY KEY (MovieTitle, MovieGenre)
 );
 
 
 CREATE TABLE show_genre
 (
-   ShowTitle   VARCHAR2    (32),
-   ShowGenre   VARCHAR2    (16)
+   ShowTitle   VARCHAR2    (265),
+   ShowGenre   VARCHAR2    (16),
+   CONSTRAINT show_genre_pkey PRIMARY KEY (ShowTitle, ShowGenre)
 );
 
 
+-- add data
 
+@C:\sql\imdb_d.sql   -- Main Data
+-- @c:\sql\imdb_md.sql  -- Google Doc
+
+-- add contraints
 
 ALTER TABLE tv_episode
 ADD CONSTRAINT tv_episode_fk FOREIGN KEY(EP_Title)
@@ -319,7 +333,7 @@ ADD CONSTRAINT mr_title_fk FOREIGN KEY(MR_Title)
 REFERENCES movie(MTitle);
 
 
-ALTER TABLE show_review
+ALTER TABLE show_review'{'\', \''.join(args)}'
 ADD CONSTRAINT show_title_fk FOREIGN KEY(S_Title)
 REFERENCES tv_show(TVTitle);
 
