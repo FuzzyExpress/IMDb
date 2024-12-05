@@ -46,7 +46,7 @@ CREATE TABLE movie
    MState          VARCHAR2    (16),
    MDetails        VARCHAR2    (2048),
    MRating         NUMBER, --     (2, 2),
-   MTagline        VARCHAR2    (64),
+   MTagline        VARCHAR2    (128),
    CONSTRAINT movie_pkey PRIMARY KEY (MTitle)
 );
 
@@ -59,7 +59,7 @@ CREATE TABLE tv_show
    TVState         VARCHAR2    (16),
    TVDetails       VARCHAR2    (2048),
    TVRating        NUMBER, --      (2, 2),
-   TVTagline       VARCHAR2    (64),
+   TVTagline       VARCHAR2    (128),
    CONSTRAINT show_pkey PRIMARY KEY (TVTitle)
 );
 
@@ -195,7 +195,7 @@ CREATE TABLE movie_review
    MR_User         VARCHAR2    (32)    CONSTRAINT MR_User  NOT NULL,
    MR_Rating       NUMBER,
    MR_Title        VARCHAR2    (265),
-   MR_Body         VARCHAR2    (2048),
+   MR_Body         CLOB,
    MR_Date         DATE,
    CONSTRAINT movie_review_mr_user PRIMARY KEY (MR_User)
 );
@@ -206,7 +206,7 @@ CREATE TABLE show_review
    S_User         VARCHAR2    (32)    CONSTRAINT S_User  NOT NULL,
    S_Rating       NUMBER,
    S_Title        VARCHAR2    (265),
-   S_Body         VARCHAR2    (2048),
+   S_Body         CLOB,
    S_Date         DATE,
    CONSTRAINT show_review_s_user PRIMARY KEY (S_User)
 );
@@ -217,7 +217,7 @@ CREATE TABLE tvep_review
    TVep_User         VARCHAR2    (32)    CONSTRAINT TVep_User  NOT NULL,
    TVep_Rating       NUMBER,
    TVep_Title        VARCHAR2    (265),
-   TVep_Body         VARCHAR2    (2048),
+   TVep_Body         CLOB,
    TVep_Date         DATE,
    TVep_Season       NUMBER,
    TVep_Episode      VARCHAR2    (32),
@@ -244,7 +244,7 @@ CREATE TABLE show_genre
 -- add data
 
 @C:\sql\imdb_d.sql   -- Main Data
--- @c:\sql\imdb_md.sql  -- Google Doc
+-- @c:\sql\imdb_man_data.sql  -- Google Doc
 
 -- add contraints
 

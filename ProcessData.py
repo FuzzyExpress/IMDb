@@ -44,7 +44,7 @@ def timeKeeper():
         print(f'{pad(files)}\n{pad(counter)} @ { round(t, 1) }s\n{pad(finished)}\n' )
         time.sleep(1)
 
-# threading.Thread(target=timeKeeper, daemon=True).start()
+threading.Thread(target=timeKeeper, daemon=True).start()
 
 def count(id):
     global counter
@@ -52,7 +52,8 @@ def count(id):
 
     boolean = counter[id] >= 500000
 
-    return boolean;
+    return boolean; # use some
+    return False; # use all
 
 
 def Finished(id):
@@ -74,6 +75,7 @@ def FunLang(Lang):
             for line in lines:
                 if count(0): break;
                 ID, _, Title, R, L, T, A, Orig = line.strip().split('\t')
+                if R != 'US': continue
                 Lang[ID] = {'Title': Title, 'Region': R, 'Lang': L, 'IsOrgTitle': Orig}
 
         with open(Cache, 'w') as cache:
@@ -92,6 +94,7 @@ def FunInfo(Info):
             for line in lines:
                 if count(1): break;
                 ID, Type, PTitle, OTitle, Adult, StartYear, EndYear, RunTimeMin, Genres = line.strip().split('\t')
+                if Type not in ['movie', 'tvSeries', ' tvEpisode']: continue
                 Info[ID] = {'Type': Type, 'PTitle': PTitle, 'OTitle': OTitle, 'RunTimeMin': RunTimeMin, 'Genre': Genres}
 
         with open(Cache, 'w') as cache:
@@ -129,6 +132,7 @@ def FunEpisode(Episode):
             for line in lines:
                 if count(3): break;
                 ID, TVParent, TVSeason, TVEpisode = line.strip().split('\t')
+                if not TVParent.startswith('tt'): continue
                 Episode[ID] = {'TVParent': TVParent, 'TVSeason': TVSeason, 'TVEpisode': TVEpisode}
 
         with open(Cache, 'w') as cache:
@@ -148,6 +152,7 @@ def FunPrincipals(Principals):
                 if count(4): break;
                 ID, Num, PersonID, Catagory, Job, Chars = line.strip().split('\t')
                 if ID == 'tconst': continue
+                if Catagory not in ['actor', 'actress', 'director', 'writer']: continue;
                 Principals[ID] = int(Num)
                 Principals[f'{ID}*{Num}'] = {'PersonID': PersonID, 'Catagory': Catagory, 'Job': Job, 'Chars': Chars}
 
@@ -194,7 +199,7 @@ def FunPeople(People):
 
 Lang        = FunLang(Lang); 
 Info        = FunInfo(Info); 
-Crew        = FunCrew(Crew); 
+# Crew        = FunCrew(Crew); 
 Episode     = FunEpisode(Episode); 
 Principals  = FunPrincipals(Principals); 
 Ratings     = FunRatings(Ratings); 
@@ -229,10 +234,7 @@ def SQLFab(Pos, *inargs, Places=None):
         SQL += ")"
 
     SQL += "\nVALUES "
-
     SQL += '('
-
-    # print(args)
 
     for x in range(len(args)):
         if x != 0:
